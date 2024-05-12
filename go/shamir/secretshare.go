@@ -76,6 +76,17 @@ func seal(target []byte, k, n int, fn func(int) []byte) ([]ShamirShare, error) {
 
 func Unseal(data []ShamirShare) ([]byte, error) {
 	shares := make([]shamirShare, len(data))
+	{
+		dedup := make(map[byte]struct{})
+		for i, l := 0, len(data); i < l; i++ {
+			_, ok := dedup[data[i].Pt]
+			if ok {
+				return nil, fmt.Errorf("avoid divide zero")
+			} else {
+				dedup[data[i].Pt] = struct{}{}
+			}
+		}
+	}
 	for i, l := 0, len(data); i < l; i++ {
 		tmp, err := fromBase64(data[i])
 		if err != nil {
