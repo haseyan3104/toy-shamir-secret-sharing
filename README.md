@@ -24,3 +24,26 @@ $ go run main.go -filename example/seal.txt
 Hello world!!
 こんにちは世界!!
 ```
+## Ex) 3-out-of-5
+### Seal
+```
+$ go run main.go -filename example/sample.txt -mode seal -k 3 -n 5
+[{"Pt":1,"Val":"EmG/kJrYZSTEGnjzdXzMAd180XkzN9PYQnDQBulz6KJvdND/gA=="},{"Pt":2,"Val":"RY2xxMeZfylPBFg1t5qcsPS5js9dWNBhCfEDOjczzyVHP+JMyQ=="},{"Pt":3,"Val":"H4liODJhbWL5ckTn4+yzMLom3SWN7qhayiAwvXGknxHP3r6SaA=="},{"Pt":4,"Val":"gANWEFsa1447mgyT7tqZS5ywBFGQpkcB3ogWYtT0J6omDSX+GA=="},{"Pt":5,"Val":"2geF7K7ixcWN7BBBuqy2y9IvV7tAED86HVkl5ZJjd56u7HkguQ=="}]
+```
+### Unseal
+```
+$ vi example/choose3.txt
+$ cat example/choose3.txt
+[{"Pt":1,"Val":"EmG/kJrYZSTEGnjzdXzMAd180XkzN9PYQnDQBulz6KJvdND/gA=="},{"Pt":2,"Val":"RY2xxMeZfylPBFg1t5qcsPS5js9dWNBhCfEDOjczzyVHP+JMyQ=="},{"Pt":5,"Val":"2geF7K7ixcWN7BBBuqy2y9IvV7tAED86HVkl5ZJjd56u7HkguQ=="}]
+$ go run main.go -filename example/choose3.txt -mode unseal
+Hello world!!
+こんにちは世界!!
+```
+#### Not unseal
+```
+$ vi example/choose2.txt
+$ cat example/choose2.txt
+[{"Pt":1,"Val":"EmG/kJrYZSTEGnjzdXzMAd180XkzN9PYQnDQBulz6KJvdND/gA=="},{"Pt":5,"Val":"2geF7K7ixcWN7BBBuqy2y9IvV7tAED86HVkl5ZJjd56u7HkguQ=="}]
+$ go run main.go -filename example/choose2.txt -mode unseal
+ ?<??[M??bRH_??.}?ix?m?&x?w???R1?E
+```
